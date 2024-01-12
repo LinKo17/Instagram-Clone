@@ -26,17 +26,17 @@
 
                     {{-- profile section --}}
                     @php
-                       if(isset($user->profile->image)){
-                            $path = "storage/" . $user->profile->image;
-                       }else{
-                            $path = "profile/a.jpg";
-                       }
+                        if (isset($user->profile->image)) {
+                            $path = 'storage/' . $user->profile->image;
+                        } else {
+                            $path = 'profile/a.jpg';
+                        }
                     @endphp
 
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-12 py-2 ">
                             <div class="container profile-img-box">
-                                <img src={{$path}} alt="">
+                                <img src={{ $path }} alt="">
                             </div>
                         </div>
 
@@ -45,12 +45,27 @@
 
                                 <div class="d-flex text-align-baseline">
                                     <h1 class=" fs-5">{{ $user->username }}</h1>
-                                    <button class="btn btn-sm btn-primary ms-2">Follow</button>
+
+                                    @if (auth()->user()->follows($user))
+                                        <form method="post" action={{ url('/follow/unfollowing') }}>
+                                            @csrf
+                                            <input type="hidden" value={{ $user->id }} name="profile_id">
+                                            <button class="btn btn-sm btn-primary ms-2">UnFollow</button>
+                                        </form>
+                                    @else
+                                        <form method="post" action={{ url('/follow/following') }}>
+                                            @csrf
+                                            <input type="hidden" value={{ $user->id }} name="profile_id">
+                                            <button class="btn btn-sm btn-primary ms-2">Follow</button>
+                                        </form>
+                                    @endif
+
                                 </div>
 
                                 @auth
-                                    @can("post-add",$user)
-                                    <a href="{{ url("/post/create/$user->id") }}" class="btn btn-sm btn-primary">Add New Post</a>
+                                    @can('post-add', $user)
+                                        <a href="{{ url("/post/create/$user->id") }}" class="btn btn-sm btn-primary">Add New
+                                            Post</a>
                                     @endcan
                                 @endauth
                             </div>
@@ -63,10 +78,20 @@
                                 @endauth
                             </div>
 
+
+
                             <div class="d-flex mt-2">
                                 <div class="pe-3"><strong class="pe-1">{{ count($user->posts) }}</strong>posts</div>
-                                <div class="pe-3"><strong class="pe-1">23k</strong>followers</div>
-                                <div class="pe-3"><strong class="pe-1">212</strong>following</div>
+
+                                <div class="pe-3">
+                                    <strong class="pe-1">
+                                        {{ count($user->profile->followers) }}
+                                    </strong>followers</div>
+
+                                <div class="pe-3">
+                                    <strong class="pe-1">
+                                        {{ count($user->followings) }}
+                                    </strong>following</div>
                             </div>
 
                             <div class="pt-3">
@@ -74,7 +99,8 @@
                             </div>
                             <div>{{ $user->profile->description }}</div>
                             <div>
-                                <a href="https://www.freecodecamp.org/news/learn-to-code-rpg/">{{ $user->profile->url }}</a>
+                                <a
+                                    href="https://www.freecodecamp.org/news/learn-to-code-rpg/">{{ $user->profile->url }}</a>
                             </div>
 
 
