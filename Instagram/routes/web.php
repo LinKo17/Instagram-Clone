@@ -16,9 +16,6 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
@@ -28,6 +25,7 @@ Route::get('/home/edit/{id}', [ProfileController::class, 'edit'])->name('edit');
 Route::put('/home/edit/{id}', [ProfileController::class, 'update'])->name('edit');
 
 // post section
+Route::get('/',[PostController::class,'index'])->name("index");
 Route::get('/post/create/{id}', [PostController::class, 'create'])->name('create');
 Route::post('/post/create/{id}', [PostController::class, 'store'])->name('store');
 Route::get('/post/show/{id}', [PostController::class, 'show'])->name('show');

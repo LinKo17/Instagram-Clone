@@ -34,14 +34,15 @@
                         </div>
                         <div class="col-12  col-lg-4">
                             <img src="{{$path}}" alt="" class="mini-profile">
-                            <a href="#" class="mini-profile-link">
+
+                            <a href="{{url("home/$post->user_id")}}" class="mini-profile-link">
                                 <strong class="ms-1">{{$post->user->username}}</strong>
                             </a>
 
-                            <a href="" class="text-decoration-none text-info  ms-1">Follow</a>
+                            {{-- <a href="" class="text-decoration-none text-info  ms-1">Follow</a> --}}
                             <div class="profile_line"></div>
 
-                            <a href="#" class="mini-profile-link">
+                            <a href="{{url("home/$post->user_id")}}" class="mini-profile-link">
                                 <strong class="ms-1">{{$post->user->username}}</strong>
                             </a>
                             <span class="ms-1 fs-6">{{$post->caption}}</span>
