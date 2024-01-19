@@ -11,7 +11,8 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        return $this->middleware("auth")->except("show");
+         $this->middleware("auth");
+         $this->middleware("verified");
     }
 
     public function index(){
