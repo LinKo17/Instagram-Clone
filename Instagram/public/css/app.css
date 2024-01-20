@@ -17,7 +17,7 @@
 } */
 .detailImage{
     width: 100%;
-    height:500px;
+    height:400px;
 }
 
 .mini-profile{
@@ -40,4 +40,57 @@
 }
 .index-image{
     width:100%;
+}
+
+.others-profile{
+    width:50px;
+    height: 50px;
+    border-radius: 100px;
+}
+.others-name{
+    color:black;
+    text-decoration: none;
+}
+.others-name:hover{
+    color:black;
+    text-decoration: underline;
+}
+.others-empty{
+    height: 100vh;
+}
+
+.detail-three-dot{
+    cursor: pointer;
+}
+@media(max-width:550px){
+    .others-empty{
+        height: 50vh;
+    }
+}
+
+
+.pf_image_comment{
+    display: inline-block;
+}
+.pf_other{
+    display: inline-block;
+}
+.comment_image{
+    width:50px;
+    height: 50px;
+    border-radius: 100px;
+}
+
+.pf_name{
+    text-decoration: none;
+    color: black;
+}
+
+.pf_name:hover{
+    text-decoration: underline;
+    color:black;
+}
+.reaction-button{
+    border:none;
+    background-color: transparent;
 }

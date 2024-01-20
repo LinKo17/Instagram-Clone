@@ -18,7 +18,7 @@ class PostController extends Controller
     public function index(){
         $users = auth()->user()->followings()->pluck('profiles.user_id');
         // return auth()->user()->followings->pivot;
-        $posts = Post::whereIn("user_id",$users)->latest()->paginate(2);
+        $posts = Post::whereIn("user_id",$users)->latest()->paginate(10);
         return view("posts.index",compact("posts"));
     }
 
@@ -53,8 +53,36 @@ class PostController extends Controller
 
     public function show($id){
         $post = Post::find($id);
+        // return $post;
         return view("posts.show",[
             "post" => $post
         ]);
+    }
+
+    public function delete($id){
+        $post = Post::find($id);
+        $user_id = $post->user_id;
+        $post->delete();
+        return redirect("/home/$user_id");
+    }
+
+    public function edit($id){
+        $post = Post::find($id);
+        return view("posts.edit",compact("post"));
+    }
+
+    public function update($id){
+        request()->validate([
+            'caption' => "required",
+            'image' => ['required', 'image'],
+        ]);
+
+        $path = request()->image->store("post", "public");
+        $post = Post::find($id);
+        $user_id = $post->user_id;
+        $post->caption = request()->caption;
+        $post->image = $path;
+        $post->save();
+        return redirect("/home/$user_id");
     }
 }

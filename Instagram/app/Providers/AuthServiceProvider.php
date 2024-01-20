@@ -30,5 +30,13 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define("post-add",function($user,$post){
             return $user->id == $post->id;
         });
+
+        Gate::define("profile-dot",function($user,$post){
+            return $user->id == $post->id;
+        });
+
+        Gate::define("delete-action",function($user,$comment){
+            return $user->id == $comment->user->id || $user->id == $comment->post->user_id;
+        });
     }
 }

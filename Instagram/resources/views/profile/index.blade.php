@@ -46,18 +46,20 @@
                                 <div class="d-flex text-align-baseline">
                                     <h1 class=" fs-5">{{ $user->username }}</h1>
 
-                                    @if (auth()->user()->follows($user))
-                                        <form method="post" action={{ url('/follow/unfollowing') }}>
-                                            @csrf
-                                            <input type="hidden" value={{ $user->id }} name="profile_id">
-                                            <button class="btn btn-sm btn-primary ms-2">UnFollow</button>
-                                        </form>
-                                    @else
-                                        <form method="post" action={{ url('/follow/following') }}>
-                                            @csrf
-                                            <input type="hidden" value={{ $user->id }} name="profile_id">
-                                            <button class="btn btn-sm btn-primary ms-2">Follow</button>
-                                        </form>
+                                    @if (auth()->user()->id != $user->id)
+                                        @if (auth()->user()->follows($user))
+                                            <form method="post" action={{ url('/follow/unfollowing') }}>
+                                                @csrf
+                                                <input type="hidden" value={{ $user->id }} name="profile_id">
+                                                <button class="btn btn-sm btn-primary ms-2">UnFollow</button>
+                                            </form>
+                                        @else
+                                            <form method="post" action={{ url('/follow/following') }}>
+                                                @csrf
+                                                <input type="hidden" value={{ $user->id }} name="profile_id">
+                                                <button class="btn btn-sm btn-primary ms-2">Follow</button>
+                                            </form>
+                                        @endif
                                     @endif
 
                                 </div>
@@ -86,12 +88,14 @@
                                 <div class="pe-3">
                                     <strong class="pe-1">
                                         {{ count($user->profile->followers) }}
-                                    </strong>followers</div>
+                                    </strong>followers
+                                </div>
 
                                 <div class="pe-3">
                                     <strong class="pe-1">
                                         {{ count($user->followings) }}
-                                    </strong>following</div>
+                                    </strong>following
+                                </div>
                             </div>
 
                             <div class="pt-3">
@@ -110,7 +114,7 @@
                     {{-- user data --}}
                     <div class="row mt-3">
                         @foreach ($user->posts as $item)
-                            <div class="col-4 mb-1">
+                            <div class="col-6 col-md-6 col-lg-4 mb-1">
 
                                 <a href="{{ url("/post/show/$item->id") }}">
                                     <img src="/storage/{{ $item->image }}" class="w-100" style="height: 200px;">
@@ -119,7 +123,7 @@
                         @endforeach
                     </div>
                 </div>
-        </div>
+            </div>
     </body>
 
     </html>

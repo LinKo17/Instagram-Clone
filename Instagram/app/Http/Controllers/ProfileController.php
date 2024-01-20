@@ -62,4 +62,20 @@ class ProfileController extends Controller
         return redirect("/home/$user");
     }
 
+    public function userProfile(){
+        $validation = validator(request()->all(),[
+            "userName" => "required"
+        ]);
+
+        if($validation->fails()){
+            return back()->withErrors($validation);
+        }
+
+        $userName = request()->userName;
+        $users = User::where("name",'Like',"%$userName%")->get();
+        return view("profile.others",[
+            "users" => $users
+        ]);
+    }
+
 }

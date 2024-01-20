@@ -13,11 +13,17 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome.css">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+    @php
+        if(isset(auth()->user()->id)){
+           $id = auth()->user()->id;
+        }
+    @endphp
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -36,8 +42,22 @@
 
                     </ul>
 
+                    @auth
+                    <ul class="navbar-nav my-1">
+                        <div>
+                            <form method="post" class="input-group" action={{url("/home/profile")}}>
+                                @csrf
+                                <input type="text" class="form-control" placeholder="name" name="userName">
+                                <button class="btn btn-primary">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </ul>
+                    @endauth
+
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto text-center my-1">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -58,6 +78,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                                    <a href="{{url("/home/$id")}}" class="dropdown-item">profile</a>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -67,6 +90,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+
                                 </div>
                             </li>
                         @endguest
