@@ -84,11 +84,25 @@
                             {{-- ------------------------------------- --}}
                             <div class="my-2">
 
-                                <form action=""  class="d-inline">
-                                    <button class="reaction-button">
-                                        <i class="fa-regular fa-heart fs-5"></i>
-                                    </button>
-                                </form>
+                                @if (auth()->user()->likes($post))
+                                        <form method="post" action="{{ url('/reaction/unliking') }}" class="d-inline">
+                                            @csrf
+                                            <input type="hidden" class="from-control" value="{{ $post->id }}"
+                                                name="post_id">
+                                            <button class="reaction-button">
+                                                <i class="fa-solid fa-heart fs-4"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form method="post" action="{{ url('/reaction/liking') }}" class="d-inline">
+                                            @csrf
+                                            <input type="hidden" class="from-control" value="{{ $post->id }}"
+                                                name="post_id">
+                                            <button class="reaction-button">
+                                                <i class="fa-regular fa-heart fs-5"></i>
+                                            </button>
+                                        </form>
+                                    @endif
 
                                 <a href="{{url("comment/$post->id")}}" class="text-dark">
                                     <i class="fa-regular fa-comment fs-5 ms-2"></i>
@@ -97,9 +111,16 @@
 
                             <div class="my-1 d-flex align-items-center">
                                 <div>
-                                    <i class="fa-solid fa-heart fs-5"></i>
+                                    <i class="fa-solid fa-heart fs-4 ms-1"></i>
                                 </div>
-                                <div class="fs-5 ms-1">0 like</div>
+                                <div class="fs-5 ms-1">
+                                    @if (count($post->likers) == 0 || count($post->likers) == 1)
+                                        {{ count($post->likers) }} like
+                                    @else
+                                        {{ count($post->likers) }}
+                                        likes
+                                    @endif
+                                </div>
                             </div>
                             {{-- ------------------------------------- --}}
                         </div>

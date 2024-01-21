@@ -34,3 +34,6 @@ Route::post("/follow/unfollowing",[FollowController::class, 'unfollow'])->name("
 Route::get("/comment/{id}",[ReactionController::class,'comment'])->name("comment");
 Route::post("/comment/{id}",[ReactionController::class,'content'])->name("content");
 Route::get("/comment/delete/{id}",[ReactionController::class,'delete'])->name("delete");
+
+Route::post("/reaction/liking",[ReactionController::class,'like'])->name("like");
+Route::post("/reaction/unliking",[ReactionController::class,'unlike'])->name("unlike");

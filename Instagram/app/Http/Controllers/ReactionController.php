@@ -55,4 +55,33 @@ class ReactionController extends Controller
         }
 
     }
+
+    public function like(){
+        $validation = validator(request()->all(),[
+            "post_id" => "required"
+        ]);
+
+        if($validation->fails()){
+            return back()->withErrors($validation);
+        }
+        $liking = auth()->user();
+        $liking->likings()->attach(request()->post_id);
+
+        return back();
+    }
+
+    public function unlike(){
+        $validation = validator(request()->all(),[
+            "post_id" => "required"
+        ]);
+
+        if($validation->fails()){
+            return back()->withErrors($validation);
+        }
+
+        $follower = auth()->user();
+        $follower->likings()->detach(request()->post_id);
+
+        return back();
+    }
 }

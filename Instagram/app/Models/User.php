@@ -44,30 +44,45 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
 
-        static::created(function ($user){
+        static::created(function ($user) {
             $user->profile()->create([
-                "user_id"=> $user->id,
+                "user_id" => $user->id,
                 // "title" => $user->name,
             ]);
         });
     }
 
-    public function profile(){
+    public function profile()
+    {
         return $this->hasOne(Profile::class);
     }
 
-    public function posts(){
-        return $this->hasMany(Post::class)->orderBy('created_at','DESC');
+    public function posts()
+    {
+        return $this->hasMany(Post::class)->orderBy('created_at', 'DESC');
     }
 
-    public function followings(){
-        return $this->belongsToMany(profile::class,"user_profiles","user_id","profile_id")->withTimestamps();
+    public function followings()
+    {
+        return $this->belongsToMany(profile::class, "user_profiles", "user_id", "profile_id")->withTimestamps();
     }
 
-    public function follows($user){
-        return $this->followings()->where('profile_id',$user->id)->exists();
+    public function follows($user)
+    {
+        return $this->followings()->where('profile_id', $user->id)->exists();
+    }
+
+    public function likings()
+    {
+        return $this->belongsToMany(Post::class, "user_posts", "user_id", "post_id")->withTimestamps();
+    }
+
+    public function likes($user)
+    {
+        return $this->likings()->where('post_id', $user->id)->exists();
     }
 }

@@ -74,11 +74,13 @@
 
                         </div>
 
+                        @can("delete-action",$comment)
                         <div class="d-flex align-items-center">
                             <a href="{{url("/comment/delete/$comment->id")}}">
                                 <i class="fa-solid fa-trash text-danger ms-1 "></i>
                             </a>
                         </div>
+                        @endcan
                     </div>
                 @endforeach
 
