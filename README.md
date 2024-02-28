@@ -1,9 +1,20 @@
-I have developed instagram clone using laravel.
+Mini Instagram Clone
 
-Follow some step to run  this project
-- put (.env) file to this project.
-- run (composer install)
-- run ( composer dump-autoload)
-- run (npm install)
-- run (npm run build)
-- run (php artisan migrate)
+###########
+Follow this instruction to run this project
+
+- put your own (.env) file to this project
+
+### Run these commends step by step
+
+- composer install
+
+- composer dump-autoload
+
+- npm install
+
+- npm run build
+
+- php artisan migrate
+
+- php artisan serve
